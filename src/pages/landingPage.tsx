@@ -31,7 +31,7 @@ export default function LandingPage() {
       gagangSabitFinishingNaturalText,
       gagangSabitNoFinishing2,
       gagangSabitFinishing2,
-      gagangSabitFinishingNatural
+      gagangSabitFinishingNatural,
     ];
 
     return t.productsData.map((p, idx) => ({
@@ -57,6 +57,10 @@ export default function LandingPage() {
     setOpenAllIndex(null);
   };
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   // ESC untuk tutup modal (image preview & semua produk)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -67,7 +71,6 @@ export default function LandingPage() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Kunci scroll body saat salah satu modal terbuka
@@ -84,11 +87,16 @@ export default function LandingPage() {
       {/* NAVBAR */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur">
         <div className="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
-          <a href="#" className="flex items-center gap-3">
+          <a
+            href="#"
+            className="flex items-center gap-3"
+            onClick={closeMobileMenu}
+          >
             <img src={logoArkahf} alt="Arkahf" className="w-auto h-12" />
           </a>
 
           <div className="flex items-center gap-3">
+            {/* Desktop menu */}
             <div className="hidden gap-8 text-sm font-medium md:flex text-white/70">
               <a href="#about" className="transition hover:text-[#D6B98C]">
                 {t.nav.about}
@@ -105,8 +113,76 @@ export default function LandingPage() {
             </div>
 
             <LanguageToggle lang={lang} onChange={setLang} />
+
+            {/* Hamburger button (mobile only) */}
+            <button
+              type="button"
+              className="inline-flex items-center justify-center w-10 h-10 border rounded-xl border-white/10 bg-white/5 text-white/80 hover:bg-white/10 md:hidden"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((v) => !v)}
+            >
+              {/* Icon */}
+              {mobileMenuOpen ? (
+                <span className="text-2xl leading-none">✕</span>
+              ) : (
+                <span className="text-2xl leading-none">☰</span>
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile menu overlay */}
+        {mobileMenuOpen && (
+          <div
+            className="md:hidden"
+            role="dialog"
+            aria-modal="true"
+            onClick={closeMobileMenu}
+          >
+            {/* Backdrop */}
+            <div className="fixed inset-0 z-40 bg-black/60" />
+
+            {/* Panel */}
+            <div
+              className="fixed top-[72px] left-0 right-0 z-50 mx-auto w-full max-w-7xl px-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] shadow-2xl overflow-hidden">
+                <div className="flex flex-col p-4 text-white/80">
+                  <a
+                    href="#about"
+                    className="px-4 py-3 rounded-xl hover:bg-white/5"
+                    onClick={closeMobileMenu}
+                  >
+                    {t.nav.about}
+                  </a>
+                  <a
+                    href="#products"
+                    className="px-4 py-3 rounded-xl hover:bg-white/5"
+                    onClick={closeMobileMenu}
+                  >
+                    {t.nav.products}
+                  </a>
+                  <a
+                    href="#why"
+                    className="px-4 py-3 rounded-xl hover:bg-white/5"
+                    onClick={closeMobileMenu}
+                  >
+                    {t.nav.why}
+                  </a>
+                  <a
+                    href="#contact"
+                    className="px-4 py-3 rounded-xl hover:bg-white/5"
+                    onClick={closeMobileMenu}
+                  >
+                    {t.nav.contact}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
@@ -141,8 +217,8 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <div className="relative h-[420px] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+          <div className="block md:block">
+            <div className="relative h-[260px] md:h-[420px] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
               <img
                 src={gagangFinishing2}
                 alt="gagangFinishing2"
@@ -213,56 +289,66 @@ export default function LandingPage() {
                   </button>
 
                   <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out
-                    ${isOpen ? "max-h-[520px] opacity-100 mt-4" : "max-h-0 opacity-0"}`}
+                    className={`transition-all duration-300 ease-in-out
+  ${isOpen ? "mt-4 opacity-100" : "opacity-0 pointer-events-none"}`}
                   >
-                    <div className="space-y-4 text-sm leading-relaxed text-white/70">
-                      {/* Deskripsi */}
-                      <div>
-                        <p className="mb-1 font-semibold text-white/80">
-                          {lang === "id" ? "Deskripsi" : "Description"}
-                        </p>
-                        {product.detail.description.map((d, idx) => (
-                          <p key={idx} className="text-white/70">
-                            {d}
+                    <div
+                      className={`
+      overflow-y-auto pr-2
+      max-h-[45vh] md:max-h-[520px]
+      ${isOpen ? "block" : "hidden"}
+    `}
+                      style={{ WebkitOverflowScrolling: "touch" }}
+                    >
+                      <div className="space-y-4 text-sm leading-relaxed text-white/70">
+                        {/* Deskripsi */}
+                        <div>
+                          <p className="mb-1 font-semibold text-white/80">
+                            {lang === "id" ? "Deskripsi" : "Description"}
                           </p>
-                        ))}
-                        {product.detail.note && (
-                          <p className="mt-2 italic text-white/60">
-                            {product.detail.note}
+                          {product.detail.description.map((d, idx) => (
+                            <p key={idx} className="text-white/70">
+                              {d}
+                            </p>
+                          ))}
+                          {product.detail.note && (
+                            <p className="mt-2 italic text-white/60">
+                              {product.detail.note}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Spesifikasi */}
+                        <div>
+                          <p className="mb-1 font-semibold text-white/80">
+                            {lang === "id"
+                              ? "Spesifikasi Produk"
+                              : "Specifications"}
                           </p>
-                        )}
-                      </div>
+                          <ul className="space-y-1 text-white/70">
+                            {product.detail.specs.map((s, idx) => (
+                              <li key={idx} className="flex gap-2">
+                                <span className="text-white/60 w-28 shrink-0">
+                                  {s.label}:
+                                </span>
 
-                      {/* Spesifikasi */}
-                      <div>
-                        <p className="mb-1 font-semibold text-white/80">
-                          {lang === "id"
-                            ? "Spesifikasi Produk"
-                            : "Specifications"}
-                        </p>
-                        <ul className="space-y-1 text-white/70">
-                          {product.detail.specs.map((s, idx) => (
-                            <li key={idx} className="flex gap-2">
-                              <span className="text-white/60 w-28 shrink-0">
-                                {s.label}:
-                              </span>
-                              <span>{s.value}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                                <span>{s.value}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      {/* Kelebihan */}
-                      <div>
-                        <p className="mb-1 font-semibold text-white/80">
-                          {lang === "id" ? "Kelebihan Produk" : "Benefits"}
-                        </p>
-                        <ul className="pl-5 space-y-1 list-disc text-white/70">
-                          {product.detail.benefits.map((b, idx) => (
-                            <li key={idx}>{b}</li>
-                          ))}
-                        </ul>
+                        {/* Kelebihan */}
+                        <div>
+                          <p className="mb-1 font-semibold text-white/80">
+                            {lang === "id" ? "Kelebihan Produk" : "Benefits"}
+                          </p>
+                          <ul className="pl-5 space-y-1 list-disc text-white/70">
+                            {product.detail.benefits.map((b, idx) => (
+                              <li key={idx}>{b}</li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -417,58 +503,69 @@ export default function LandingPage() {
                           </button>
 
                           <div
-                            className={`overflow-hidden transition-all duration-300 ease-in-out
-                            ${isOpen ? "max-h-[520px] opacity-100 mt-4" : "max-h-0 opacity-0"}`}
+                            className={`transition-all duration-300 ease-in-out
+  ${isOpen ? "mt-4 opacity-100" : "opacity-0 pointer-events-none"}`}
                           >
-                            <div className="space-y-4 text-sm leading-relaxed text-white/70">
-                              {/* Deskripsi */}
-                              <div>
-                                <p className="mb-1 font-semibold text-white/80">
-                                  {lang === "id" ? "Deskripsi" : "Description"}
-                                </p>
-                                {product.detail.description.map((d, idx) => (
-                                  <p key={idx} className="text-white/70">
-                                    {d}
+                            <div
+                              className={`
+      overflow-y-auto pr-2
+      max-h-[45vh] md:max-h-[520px]
+      ${isOpen ? "block" : "hidden"}
+    `}
+                              style={{ WebkitOverflowScrolling: "touch" }}
+                            >
+                              <div className="space-y-4 text-sm leading-relaxed text-white/70">
+                                {/* Deskripsi */}
+                                <div>
+                                  <p className="mb-1 font-semibold text-white/80">
+                                    {lang === "id"
+                                      ? "Deskripsi"
+                                      : "Description"}
                                   </p>
-                                ))}
-                                {product.detail.note && (
-                                  <p className="mt-2 italic text-white/60">
-                                    {product.detail.note}
+                                  {product.detail.description.map((d, idx) => (
+                                    <p key={idx} className="text-white/70">
+                                      {d}
+                                    </p>
+                                  ))}
+                                  {product.detail.note && (
+                                    <p className="mt-2 italic text-white/60">
+                                      {product.detail.note}
+                                    </p>
+                                  )}
+                                </div>
+
+                                {/* Spesifikasi */}
+                                <div>
+                                  <p className="mb-1 font-semibold text-white/80">
+                                    {lang === "id"
+                                      ? "Spesifikasi Produk"
+                                      : "Specifications"}
                                   </p>
-                                )}
-                              </div>
+                                  <ul className="space-y-1 text-white/70">
+                                    {product.detail.specs.map((s, idx) => (
+                                      <li key={idx} className="flex gap-2">
+                                        <span className="text-white/60 w-28 shrink-0">
+                                          {s.label}:
+                                        </span>
+                                        <span>{s.value}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
 
-                              {/* Spesifikasi */}
-                              <div>
-                                <p className="mb-1 font-semibold text-white/80">
-                                  {lang === "id"
-                                    ? "Spesifikasi Produk"
-                                    : "Specifications"}
-                                </p>
-                                <ul className="space-y-1 text-white/70">
-                                  {product.detail.specs.map((s, idx) => (
-                                    <li key={idx} className="flex gap-2">
-                                      <span className="text-white/60 w-28 shrink-0">
-                                        {s.label}:
-                                      </span>
-                                      <span>{s.value}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              {/* Kelebihan */}
-                              <div>
-                                <p className="mb-1 font-semibold text-white/80">
-                                  {lang === "id"
-                                    ? "Kelebihan Produk"
-                                    : "Benefits"}
-                                </p>
-                                <ul className="pl-5 space-y-1 list-disc text-white/70">
-                                  {product.detail.benefits.map((b, idx) => (
-                                    <li key={idx}>{b}</li>
-                                  ))}
-                                </ul>
+                                {/* Kelebihan */}
+                                <div>
+                                  <p className="mb-1 font-semibold text-white/80">
+                                    {lang === "id"
+                                      ? "Kelebihan Produk"
+                                      : "Benefits"}
+                                  </p>
+                                  <ul className="pl-5 space-y-1 list-disc text-white/70">
+                                    {product.detail.benefits.map((b, idx) => (
+                                      <li key={idx}>{b}</li>
+                                    ))}
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
