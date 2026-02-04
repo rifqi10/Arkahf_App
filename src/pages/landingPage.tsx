@@ -523,12 +523,12 @@ export default function LandingPage() {
 
           <div className="space-y-3 text-lg">
             <p>Email: arkahf65@gmail.com</p>
-            <p>WhatsApp: +6281809193482</p>
+            <p>WhatsApp: +62856409059032</p>
           </div>
 
           <div className="mt-10">
             <a
-              href="https://wa.me/6281809193482?text=Halo%20Arkahf,%20saya%20tertarik%20dengan%20produk%20gagang%20kayu."
+              href="https://wa.me/6285640905903?text=Halo%20Arkahf,%20saya%20tertarik%20dengan%20produk%20gagang%20kayu."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-10 py-4 font-semibold transition
