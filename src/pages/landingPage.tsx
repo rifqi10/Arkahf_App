@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import logoArkahf from "../assets/arkhafLogo2.png";
 import gagangFinishing2 from "../assets/gagangFinishing2.jpeg";
 import gagangSabitFinishing2 from "../assets/gagangSabitFinishing2.jpeg";
@@ -7,23 +7,19 @@ import gagangSabitFinishingNaturalText from "../assets/gagangSabitFinishingNatur
 import gagangSabitNoFinishing2 from "../assets/gagangSabitNoFinishing2.jpeg";
 import gagangSabitNoFinishingText from "../assets/gagangSabitNoFinishingText.png";
 import gagangSabitFinishingNatural from "../assets/gagangSabitFinishingNatural.jpeg";
+import iklanVideo1 from "../assets/iklanVideo1.mp4";
 
 import LanguageToggle from "../components/languageToggle";
 import { useLang } from "../hooks/useLang";
+import SEO from "../components/SEO";
 
 export default function LandingPage() {
   const { lang, setLang, t } = useLang();
-
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [previewAlt, setPreviewAlt] = useState<string>("");
-
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  // Modal "Semua Produk"
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [openAllIndex, setOpenAllIndex] = useState<number | null>(null);
-
-  // Produk: teks ikut bahasa, image tetap
   const products = useMemo(() => {
     const images = [
       gagangSabitNoFinishingText,
@@ -40,13 +36,68 @@ export default function LandingPage() {
     }));
   }, [t.productsData]);
 
-  // Hanya tampil 4 dulu di section
+  const heroSlides = useMemo(
+    () => [
+      {
+        type: "image" as const,
+        src: gagangFinishing2,
+        alt: "gagangFinishing2",
+      },
+      { type: "video" as const, src: iklanVideo1, alt: "iklanVideo1" },
+    ],
+    [],
+  );
+
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRefs = useRef(new Map<number, HTMLVideoElement | null>());
+
+  useEffect(() => {
+    const active = heroSlides[heroIndex];
+    if (active?.type !== "video") return;
+
+    const v = videoRefs.current.get(heroIndex);
+    if (!v) return;
+
+    const onEnded = () => {
+      setHeroIndex((i) => (i + 1) % heroSlides.length);
+    };
+
+    v.addEventListener("ended", onEnded);
+    return () => v.removeEventListener("ended", onEnded);
+  }, [heroIndex, heroSlides]);
+
+  const goPrev = () =>
+    setHeroIndex((i) => (i - 1 + heroSlides.length) % heroSlides.length);
+
+  const goNext = () => setHeroIndex((i) => (i + 1) % heroSlides.length);
+
+  useEffect(() => {
+    heroSlides.forEach((s, idx) => {
+      if (s.type === "video") {
+        const v = videoRefs.current.get(idx);
+        if (v) {
+          v.pause();
+          v.currentTime = 0;
+        }
+      }
+    });
+
+    const activeSlide = heroSlides[heroIndex];
+    if (activeSlide?.type === "video") {
+      const v = videoRefs.current.get(heroIndex);
+      if (v) {
+        v.muted = isMuted;
+        v.volume = isMuted ? 0 : 1;
+        v.play().catch(() => {});
+      }
+    }
+  }, [heroIndex, heroSlides, isMuted]); 
+
   const MAX_VISIBLE = 4;
   const hasMore = products.length > MAX_VISIBLE;
-
   const visibleCount = hasMore ? MAX_VISIBLE - 1 : MAX_VISIBLE;
   const visibleProducts = products.slice(0, visibleCount);
-
   const closeImagePreview = () => {
     setPreviewSrc(null);
     setPreviewAlt("");
@@ -58,10 +109,8 @@ export default function LandingPage() {
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  // ESC untuk tutup modal (image preview & semua produk)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -73,7 +122,6 @@ export default function LandingPage() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // Kunci scroll body saat salah satu modal terbuka
   useEffect(() => {
     const anyModalOpen = !!previewSrc || showAllProducts;
     document.body.style.overflow = anyModalOpen ? "hidden" : "";
@@ -84,6 +132,22 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen font-sans text-[#F3E9D2] bg-[#070707]">
+      <SEO
+        title={
+          lang === "id"
+            ? "Arkahf — Gagang Kayu, Handle & Pegangan Kayu Premium"
+            : "Arkahf — Wooden Handles, Handles & Premium Wooden Grips"
+        }
+        description={
+          lang === "id"
+            ? "Produk gagang kayu, handle, pegangan alat, serta aksesoris kayu dari Arkahf dibuat dari kayu pilihan (jati/mahoni) dengan finishing rapi. Kuat, ergonomis, dan nyaman digenggam untuk kebutuhan produksi maupun custom."
+            : "HArkahf's wooden handles, grips, tool handles, and wooden accessories are made from selected wood (teak/mahogany) with a neat finish. Strong, ergonomic, and comfortable to hold for production and custom needs."
+        }
+        canonical={
+          lang === "id" ? "https://arkahf.com/" : "https://arkahf.com/?lang=en"
+        }
+        ogImage="https://arkahf.com/og.jpg"
+      />
       {/* NAVBAR */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur">
         <div className="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
@@ -219,11 +283,96 @@ export default function LandingPage() {
 
           <div className="block md:block">
             <div className="relative h-[260px] md:h-[420px] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-              <img
-                src={gagangFinishing2}
-                alt="gagangFinishing2"
-                className="absolute inset-0 object-cover w-full h-full"
-              />
+              {/* SLIDES */}
+              {heroSlides.map((s, idx) => {
+                {
+                  heroSlides[heroIndex]?.type === "video" && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMuted(false);
+                        const v = videoRefs.current.get(heroIndex);
+                        if (v) {
+                          v.muted = false;
+                          v.volume = 1;
+                          v.play().catch(() => {});
+                        }
+                      }}
+                      className="absolute z-20 px-3 py-2 border bottom-3 right-3 rounded-xl bg-black/50 text-white/80 border-white/10"
+                    >
+                      🔊 Unmute
+                    </button>
+                  );
+                }
+                const active = idx === heroIndex;
+
+                return (
+                  <div
+                    key={idx}
+                    className={`absolute inset-0 transition-opacity duration-700 ${
+                      active ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    {s.type === "image" ? (
+                      <img
+                        src={s.src}
+                        alt={s.alt}
+                        className="absolute inset-0 object-cover w-full h-full"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <video
+                        ref={(el) => {
+                          if (el) videoRefs.current.set(idx, el);
+                          else videoRefs.current.delete(idx);
+                        }}
+                        className="absolute inset-0 object-cover w-full h-full bg-black"
+                        src={s.src}
+                        muted={isMuted}
+                        playsInline
+                        preload="auto"
+                        controls
+                      />
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* NAV BUTTONS */}
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Previous slide"
+                className="absolute z-10 w-10 h-10 -translate-y-1/2 border left-3 top-1/2 rounded-2xl border-white/10 bg-black/40 text-white/80 hover:bg-black/60"
+              >
+                ‹
+              </button>
+
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Next slide"
+                className="absolute z-10 w-10 h-10 -translate-y-1/2 border right-3 top-1/2 rounded-2xl border-white/10 bg-black/40 text-white/80 hover:bg-black/60"
+              >
+                ›
+              </button>
+
+              {/* DOTS */}
+              <div className="absolute z-10 flex gap-2 -translate-x-1/2 bottom-3 left-1/2">
+                {heroSlides.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => setHeroIndex(i)}
+                    className={`h-2.5 w-2.5 rounded-full border border-white/20 transition ${
+                      i === heroIndex
+                        ? "bg-white/70"
+                        : "bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
