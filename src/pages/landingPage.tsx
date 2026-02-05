@@ -7,7 +7,6 @@ import gagangSabitFinishingNaturalText from "../assets/gagangSabitFinishingNatur
 import gagangSabitNoFinishing2 from "../assets/gagangSabitNoFinishing2.jpeg";
 import gagangSabitNoFinishingText from "../assets/gagangSabitNoFinishingText.png";
 import gagangSabitFinishingNatural from "../assets/gagangSabitFinishingNatural.jpeg";
-import iklanVideo1 from "../assets/iklanVideo1.mp4";
 
 import LanguageToggle from "../components/languageToggle";
 import { useLang } from "../hooks/useLang";
@@ -43,7 +42,11 @@ export default function LandingPage() {
         src: gagangFinishing2,
         alt: "gagangFinishing2",
       },
-      { type: "video" as const, src: iklanVideo1, alt: "iklanVideo1" },
+      { 
+        type: "video" as const, 
+        src: "/iklanVideo1.mp4", // <--- GANTI JADI BEGINI (Pakai tanda kutip & garis miring depan)
+        alt: "iklanVideo1" 
+      },
     ],
     [],
   );
