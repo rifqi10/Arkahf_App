@@ -284,7 +284,9 @@ export default function LandingPage() {
           <div className="block md:block">
             <div className="relative h-[260px] md:h-[420px] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
               {/* SLIDES */}
+              {/* SLIDES */}
               {heroSlides.map((s, idx) => {
+                // Logic tombol unmute (tetap sama)
                 {
                   heroSlides[heroIndex]?.type === "video" && (
                     <button
@@ -304,6 +306,7 @@ export default function LandingPage() {
                     </button>
                   );
                 }
+                
                 const active = idx === heroIndex;
 
                 return (
@@ -328,10 +331,15 @@ export default function LandingPage() {
                         }}
                         className="absolute inset-0 object-cover w-full h-full bg-black"
                         src={s.src}
-                        muted={isMuted}
-                        playsInline
-                        preload="auto"
-                        controls
+                        
+                        /* --- PERUBAHAN DI SINI --- */
+                        autoPlay={active}   // Penting: Suruh play kalau dia slide aktif
+                        muted={isMuted}     // Penting: Browser WAJIB mute dulu baru mau autoplay
+                        playsInline         // Penting: Supaya jalan di iPhone/Android
+                        loop={false}        // False, karena kamu pakai onEnded untuk ganti slide
+                        preload="metadata"  // Metadata dulu biar ringan
+                        controls            // Tetap ada controls jika user mau geser manual
+                        /* ------------------------- */
                       />
                     )}
                   </div>
