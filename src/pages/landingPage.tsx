@@ -769,7 +769,7 @@ export default function LandingPage() {
 
           <div className="space-y-3 text-lg">
             <p>Email: arkahf65@gmail.com</p>
-            <p>WhatsApp: +62856409059032</p>
+            <p>WhatsApp: +6285640905903</p>
           </div>
 
           <div className="mt-10">
