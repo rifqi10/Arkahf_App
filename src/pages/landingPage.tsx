@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import logoArkahf from "../assets/arkhafLogo2.png";
 import gagangFinishing2 from "../assets/gagangFinishing2.jpeg";
@@ -8,7 +8,8 @@ import gagangSabitFinishingNaturalText from "../assets/gagangSabitFinishingNatur
 import gagangSabitNoFinishing2 from "../assets/gagangSabitNoFinishing2.jpeg";
 import gagangSabitNoFinishingText from "../assets/gagangSabitNoFinishingText.png";
 import gagangSabitFinishingNatural from "../assets/gagangSabitFinishingNatural.jpeg";
-import iklanVideo1 from "../assets/iklanVideo1.mp4";
+import gagangSabitFinishingNatural2 from "../assets/gagangSabitFinishingNatural2.jpeg";
+import gagangSabitBahanMentah from "../assets/gagangSabitBahanMentah.jpeg";
 
 import LanguageToggle from "../components/languageToggle";
 import { useLang } from "../hooks/useLang";
@@ -44,56 +45,26 @@ export default function LandingPage() {
         src: gagangFinishing2,
         alt: "gagangFinishing2",
       },
-      { type: "video" as const, src: iklanVideo1, alt: "iklanVideo1" },
+      {
+        type: "image" as const,
+        src: gagangSabitFinishingNatural2,
+        alt: "gagangSabitFinishingNatural2",
+      },
+      {
+        type: "image" as const,
+        src: gagangSabitBahanMentah,
+        alt: "gagangSabitBahanMentah",
+      },
     ],
     [],
   );
 
   const [heroIndex, setHeroIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRefs = useRef(new Map<number, HTMLVideoElement | null>());
-
-  useEffect(() => {
-    const active = heroSlides[heroIndex];
-    if (active?.type !== "video") return;
-
-    const v = videoRefs.current.get(heroIndex);
-    if (!v) return;
-
-    const onEnded = () => {
-      setHeroIndex((i) => (i + 1) % heroSlides.length);
-    };
-
-    v.addEventListener("ended", onEnded);
-    return () => v.removeEventListener("ended", onEnded);
-  }, [heroIndex, heroSlides]);
 
   const goPrev = () =>
     setHeroIndex((i) => (i - 1 + heroSlides.length) % heroSlides.length);
 
   const goNext = () => setHeroIndex((i) => (i + 1) % heroSlides.length);
-
-  useEffect(() => {
-    heroSlides.forEach((s, idx) => {
-      if (s.type === "video") {
-        const v = videoRefs.current.get(idx);
-        if (v) {
-          v.pause();
-          v.currentTime = 0;
-        }
-      }
-    });
-
-    const activeSlide = heroSlides[heroIndex];
-    if (activeSlide?.type === "video") {
-      const v = videoRefs.current.get(heroIndex);
-      if (v) {
-        v.muted = isMuted;
-        v.volume = isMuted ? 0 : 1;
-        v.play().catch(() => {});
-      }
-    }
-  }, [heroIndex, heroSlides, isMuted]);
 
   const MAX_VISIBLE = 4;
   const hasMore = products.length > MAX_VISIBLE;
@@ -299,25 +270,6 @@ export default function LandingPage() {
               <div className="relative h-[260px] md:h-[420px] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
                 {/* SLIDES */}
                 {heroSlides.map((s, idx) => {
-                  {
-                    heroSlides[heroIndex]?.type === "video" && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsMuted(false);
-                          const v = videoRefs.current.get(heroIndex);
-                          if (v) {
-                            v.muted = false;
-                            v.volume = 1;
-                            v.play().catch(() => {});
-                          }
-                        }}
-                        className="absolute z-20 px-3 py-2 border bottom-3 right-3 rounded-xl bg-black/50 text-white/80 border-white/10"
-                      >
-                        🔊 Unmute
-                      </button>
-                    );
-                  }
                   const active = idx === heroIndex;
 
                   return (
@@ -327,27 +279,12 @@ export default function LandingPage() {
                         active ? "opacity-100" : "opacity-0 pointer-events-none"
                       }`}
                     >
-                      {s.type === "image" ? (
-                        <img
-                          src={s.src}
-                          alt={s.alt}
-                          className="absolute inset-0 object-cover w-full h-full"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <video
-                          ref={(el) => {
-                            if (el) videoRefs.current.set(idx, el);
-                            else videoRefs.current.delete(idx);
-                          }}
-                          className="absolute inset-0 object-cover w-full h-full bg-black"
-                          src={s.src}
-                          muted={isMuted}
-                          playsInline
-                          preload="auto"
-                          controls
-                        />
-                      )}
+                      <img
+                        src={s.src}
+                        alt={s.alt}
+                        className="absolute inset-0 object-cover w-full h-full"
+                        loading="lazy"
+                      />
                     </div>
                   );
                 })}
