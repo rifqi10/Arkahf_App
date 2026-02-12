@@ -239,6 +239,19 @@ export default function LandingPage() {
 
           <div className="relative grid items-center gap-12 px-6 mx-auto max-w-7xl md:grid-cols-2">
             <div>
+              {/* PRE-ORDER BADGE */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 border rounded-full border-white/15 bg-white/5 text-white/80">
+                <span className="h-2 w-2 rounded-full bg-[#D6B98C]" />
+                <span className="text-sm font-semibold">
+                  {lang === "id" ? "Sistem Pre-Order" : "Pre-Order System"}
+                </span>
+                <span className="text-sm text-white/60">
+                  {lang === "id"
+                    ? "— dibuat setelah pesanan masuk"
+                    : "— made after order is placed"}
+                </span>
+              </div>
+
               <h1 className="mb-6 font-serif text-5xl font-extrabold leading-tight tracking-tight md:text-6xl">
                 {t.hero.title}
               </h1>
@@ -264,6 +277,11 @@ export default function LandingPage() {
                   {t.hero.ctaSecondary}
                 </a>
               </div>
+              <p className="max-w-xl mt-4 text-sm text-white/60">
+                {lang === "id"
+                  ? "Catatan: Produk dibuat dengan sistem pre-order. Estimasi pengerjaan mengikuti jenis finishing & jumlah pesanan."
+                  : "Note: Products are made via pre-order. Production time depends on finishing type & order volume."}
+              </p>
             </div>
 
             <div className="block md:block">
@@ -368,6 +386,10 @@ export default function LandingPage() {
                         setPreviewAlt(product.title);
                       }}
                     >
+                      <span className="absolute z-10 px-3 py-1 text-xs border rounded-full left-3 top-3 border-white/15 bg-black/50 text-white/80 backdrop-blur">
+                        {lang === "id" ? "Pre-Order" : "Pre-Order"}
+                      </span>
+
                       <img
                         src={product.image}
                         alt={product.title}
@@ -581,6 +603,10 @@ export default function LandingPage() {
                                 setPreviewAlt(product.title);
                               }}
                             >
+                              <span className="absolute z-10 px-3 py-1 text-xs border rounded-full left-3 top-3 border-white/15 bg-black/50 text-white/80 backdrop-blur">
+                                {lang === "id" ? "Pre-Order" : "Pre-Order"}
+                              </span>
+
                               <img
                                 src={product.image}
                                 alt={product.title}
