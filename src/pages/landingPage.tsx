@@ -101,6 +101,72 @@ export default function LandingPage() {
     };
   }, [previewSrc, showAllProducts]);
 
+  // Link Shopee
+  const shopeeUrl = "https://id.shp.ee/tY9FnvX";
+
+  // Filter Produk
+
+  const categoryLabel = (id: CategoryId) => {
+    const labels = {
+      id: {
+        all: "Semua",
+        gagang_sabit: "Gagang Sabit",
+        talenan: "Talenan",
+        balok_kubus: "Balok/Kubus",
+        kotak_kayu_serbaguna: "Kotak Kayu Serbaguna",
+        rak_kayu_serbaguna: "Rak Kayu Serbaguna",
+      },
+      en: {
+        all: "All",
+        gagang_sabit: "Sickle Handles",
+        talenan: "Cutting Boards",
+        balok_kubus: "Blocks/Cubes",
+        kotak_kayu_serbaguna: "Multipurpose Wooden Boxes",
+        rak_kayu_serbaguna: "Multipurpose Wooden Racks",
+      },
+    } as const;
+
+    return labels[lang][id];
+  };
+
+  const CATEGORY_IDS = [
+    "all",
+    "gagang_sabit",
+    "talenan",
+    "balok_kubus",
+    "kotak_kayu_serbaguna",
+    "rak_kayu_serbaguna",
+  ] as const;
+
+  type CategoryId = (typeof CATEGORY_IDS)[number];
+
+  const [activeCategory, setActiveCategory] = useState<CategoryId>("all");
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // reset filter tiap modal dibuka (opsional, biar nyaman)
+  useEffect(() => {
+    if (showAllProducts) {
+      setSearchQuery("");
+      setActiveCategory("all");
+    }
+  }, [showAllProducts]);
+
+  const filteredProducts = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+
+    return products.filter((p) => {
+      const matchCategory =
+        activeCategory === "all" ? true : p.categoryId === activeCategory;
+
+      const matchQuery = !q
+        ? true
+        : (p.title + " " + p.short).toLowerCase().includes(q);
+
+      return matchCategory && matchQuery;
+    });
+  }, [products, searchQuery, activeCategory]);
+
   return (
     <div className="min-h-screen font-sans text-[#F3E9D2] bg-[#070707]">
       <SEO
@@ -262,6 +328,64 @@ export default function LandingPage() {
                 className="px-8 py-4 font-semibold transition border rounded-xl border-white/20 hover:bg-white/5"
               >
                 {t.hero.ctaSecondary}
+              </a>
+
+              <a
+                href={shopeeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  group relative inline-flex items-center justify-center gap-3
+                  px-8 py-4 rounded-2xl font-semibold
+                  text-[#F3E9D2]
+                  bg-gradient-to-r from-[#5E361F] via-[#7A4A2A] to-[#2E1A10]
+                  shadow-[0_16px_40px_rgba(122,74,42,0.35)]
+                  ring-1 ring-white/10
+                  transition-all duration-300
+                  hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(122,74,42,0.45)]
+                  active:translate-y-0 active:shadow-[0_12px_30px_rgba(122,74,42,0.30)]
+                "
+              >
+                {/* glow layer (wood tone) */}
+                <span
+                  className="
+                    pointer-events-none absolute -inset-1 rounded-2xl blur-xl opacity-25
+                    bg-[radial-gradient(ellipse_at_top,_rgba(214,185,140,0.35),_transparent_60%)]
+                    transition-opacity duration-300
+                    group-hover:opacity-40
+                  "
+                />
+
+                {/* shine sweep */}
+                <span className="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
+                  <span
+                    className="
+                      absolute -left-1/2 top-0 h-full w-1/2
+                      bg-gradient-to-r from-transparent via-white/20 to-transparent
+                      skew-x-[-20deg]
+                      translate-x-[-120%]
+                      transition-transform duration-700
+                      group-hover:translate-x-[260%]
+                    "
+                  />
+                </span>
+
+                <span className="relative inline-flex items-center gap-3">
+                  {/* icon container */}
+                  <span className="grid w-10 h-10 place-items-center rounded-xl bg-black/20 ring-1 ring-white/15">
+                    🛒
+                  </span>
+
+                  <span className="flex flex-col leading-tight text-left">
+                    <span className="text-sm text-white/75">
+                      {lang === "id" ? "Checkout via" : "Checkout via"}
+                    </span>
+
+                    <span className="text-base">
+                      {lang === "id" ? "Shopee Store" : "Shopee Store"}
+                    </span>
+                  </span>
+                </span>
               </a>
             </div>
             <p className="max-w-xl mt-4 text-sm text-white/60">
@@ -568,124 +692,215 @@ export default function LandingPage() {
                 </div>
 
                 <div className="px-6 py-6 overflow-y-auto">
-                  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                    {products.map((product, i) => {
-                      const isOpen = openAllIndex === i;
+                  {/* TOOLBAR: search + filter */}
+                  <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
+                    {/* Search */}
+                    <div className="relative w-full md:max-w-md">
+                      <span className="absolute -translate-y-1/2 pointer-events-none left-4 top-1/2 text-white/50">
+                        🔎
+                      </span>
+                      <input
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder={
+                          lang === "id"
+                            ? "Cari produk..."
+                            : "Search products..."
+                        }
+                        className="
+          w-full rounded-2xl border border-white/10 bg-white/5
+          pl-11 pr-4 py-3 text-white/85 placeholder:text-white/40
+          outline-none transition
+          focus:border-[#7A4A2A]/70 focus:bg-white/7
+        "
+                      />
+                    </div>
 
-                      return (
-                        <div
-                          key={`all-${i}`}
-                          className="p-6 transition rounded-3xl
-                          bg-[#11100F] border border-white/10
-                          hover:border-[#7A4A2A]/60"
-                        >
+                    {/* Filter button + chips */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-2 px-3 py-2 text-sm border rounded-xl border-white/10 bg-white/5 text-white/70">
+                        <span className="opacity-80">⛃</span>
+                        {lang === "id" ? "Filter:" : "Filter:"}
+                      </span>
+
+                      {CATEGORY_IDS.map((catId) => {
+                        const active = catId === activeCategory;
+                        return (
                           <button
+                            key={catId}
                             type="button"
-                            className="relative w-full h-48 mb-5 overflow-hidden rounded-2xl"
-                            onClick={() => {
-                              setPreviewSrc(product.image);
-                              setPreviewAlt(product.title);
-                            }}
+                            onClick={() => setActiveCategory(catId)}
+                            className={`
+        rounded-xl px-4 py-2 text-sm transition border
+        ${
+          active
+            ? "bg-[#7A4A2A]/25 border-[#7A4A2A]/60 text-[#F3E9D2]"
+            : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+        }
+      `}
                           >
-                            <span className="absolute z-10 px-3 py-1 text-xs border rounded-full left-3 top-3 border-white/15 bg-black/50 text-white/80 backdrop-blur">
-                              {lang === "id" ? "Pre-Order" : "Pre-Order"}
-                            </span>
-
-                            <img
-                              src={product.image}
-                              alt={product.title}
-                              className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
-                            />
+                            {categoryLabel(catId)}
                           </button>
+                        );
+                      })}
+                    </div>
+                  </div>
 
-                          <h3 className="mb-2 font-serif text-lg font-semibold">
-                            {product.title}
-                          </h3>
+                  {/* Result info */}
+                  <div className="flex items-center justify-between mb-6 text-sm text-white/50">
+                    <span>
+                      {lang === "id"
+                        ? `Menampilkan ${filteredProducts.length} produk`
+                        : `Showing ${filteredProducts.length} products`}
+                    </span>
 
-                          <p className="mb-4 text-sm text-white/60">
-                            {product.short}
-                          </p>
+                    {(searchQuery.trim() || activeCategory !== "all") && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchQuery("");
+                          setActiveCategory("all");
+                        }}
+                        className="text-[#D6B98C] hover:underline"
+                      >
+                        {lang === "id" ? "Reset" : "Reset"}
+                      </button>
+                    )}
+                  </div>
 
-                          <button
-                            onClick={() => setOpenAllIndex(isOpen ? null : i)}
-                            className="font-medium text-[#D6B98C] hover:underline"
-                          >
-                            {isOpen
-                              ? t.products.detailClose
-                              : t.products.detailOpen}
-                          </button>
+                  {/* GRID */}
+                  {filteredProducts.length === 0 ? (
+                    <div className="p-8 text-center border rounded-2xl border-white/10 bg-white/5 text-white/70">
+                      {lang === "id"
+                        ? "Produk tidak ditemukan. Coba kata kunci lain atau ubah filter."
+                        : "No products found. Try another keyword or change filters."}
+                    </div>
+                  ) : (
+                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                      {filteredProducts.map((product, i) => {
+                        // ⚠️ karena sekarang list bisa berubah (filter/search),
+                        // lebih aman pakai open state berbasis "key" unik.
+                        // Untuk cepatnya, kita reset openAllIndex saat filter/search berubah:
+                        const isOpen = openAllIndex === i;
 
+                        return (
                           <div
-                            className={`transition-all duration-300 ease-in-out
-                            ${isOpen ? "mt-4 opacity-100" : "opacity-0 pointer-events-none"}`}
+                            key={`${product.title}-${i}`}
+                            className="p-6 transition rounded-3xl
+            bg-[#11100F] border border-white/10
+            hover:border-[#7A4A2A]/60"
                           >
-                            <div
-                              className={`
-                                overflow-y-auto pr-2
-                                max-h-[45vh] md:max-h-[520px]
-                                ${isOpen ? "block" : "hidden"}
-                              `}
-                              style={{ WebkitOverflowScrolling: "touch" }}
+                            <button
+                              type="button"
+                              className="relative w-full h-48 mb-5 overflow-hidden rounded-2xl"
+                              onClick={() => {
+                                setPreviewSrc(product.image);
+                                setPreviewAlt(product.title);
+                              }}
                             >
-                              <div className="space-y-4 text-sm leading-relaxed text-white/70">
-                                {/* Deskripsi */}
-                                <div>
-                                  <p className="mb-1 font-semibold text-white/80">
-                                    {lang === "id"
-                                      ? "Deskripsi"
-                                      : "Description"}
-                                  </p>
-                                  {product.detail.description.map((d, idx) => (
-                                    <p key={idx} className="text-white/70">
-                                      {d}
-                                    </p>
-                                  ))}
-                                  {product.detail.note && (
-                                    <p className="mt-2 italic text-white/60">
-                                      {product.detail.note}
-                                    </p>
-                                  )}
-                                </div>
+                              <span className="absolute z-10 px-3 py-1 text-xs border rounded-full left-3 top-3 border-white/15 bg-black/50 text-white/80 backdrop-blur">
+                                {lang === "id" ? "Pre-Order" : "Pre-Order"}
+                              </span>
 
-                                {/* Spesifikasi */}
-                                <div>
-                                  <p className="mb-1 font-semibold text-white/80">
-                                    {lang === "id"
-                                      ? "Spesifikasi Produk"
-                                      : "Specifications"}
-                                  </p>
-                                  <ul className="space-y-1 text-white/70">
-                                    {product.detail.specs.map((s, idx) => (
-                                      <li key={idx} className="flex gap-2">
-                                        <span className="text-white/60 w-28 shrink-0">
-                                          {s.label}:
-                                        </span>
-                                        <span>{s.value}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
+                              <img
+                                src={product.image}
+                                alt={product.title}
+                                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                              />
+                            </button>
 
-                                {/* Kelebihan */}
-                                <div>
-                                  <p className="mb-1 font-semibold text-white/80">
-                                    {lang === "id"
-                                      ? "Kelebihan Produk"
-                                      : "Benefits"}
-                                  </p>
-                                  <ul className="pl-5 space-y-1 list-disc text-white/70">
-                                    {product.detail.benefits.map((b, idx) => (
-                                      <li key={idx}>{b}</li>
-                                    ))}
-                                  </ul>
+                            <h3 className="mb-2 font-serif text-lg font-semibold">
+                              {product.title}
+                            </h3>
+
+                            <p className="mb-4 text-sm text-white/60">
+                              {product.short}
+                            </p>
+
+                            <button
+                              onClick={() => setOpenAllIndex(isOpen ? null : i)}
+                              className="font-medium text-[#D6B98C] hover:underline"
+                            >
+                              {isOpen
+                                ? t.products.detailClose
+                                : t.products.detailOpen}
+                            </button>
+
+                            {/* detail tetap sama seperti punyamu */}
+                            <div
+                              className={`transition-all duration-300 ease-in-out
+              ${isOpen ? "mt-4 opacity-100" : "opacity-0 pointer-events-none"}`}
+                            >
+                              <div
+                                className={`
+                  overflow-y-auto pr-2
+                  max-h-[45vh] md:max-h-[520px]
+                  ${isOpen ? "block" : "hidden"}
+                `}
+                                style={{ WebkitOverflowScrolling: "touch" }}
+                              >
+                                <div className="space-y-4 text-sm leading-relaxed text-white/70">
+                                  {/* Deskripsi */}
+                                  <div>
+                                    <p className="mb-1 font-semibold text-white/80">
+                                      {lang === "id"
+                                        ? "Deskripsi"
+                                        : "Description"}
+                                    </p>
+                                    {product.detail.description.map(
+                                      (d, idx) => (
+                                        <p key={idx} className="text-white/70">
+                                          {d}
+                                        </p>
+                                      ),
+                                    )}
+                                    {product.detail.note && (
+                                      <p className="mt-2 italic text-white/60">
+                                        {product.detail.note}
+                                      </p>
+                                    )}
+                                  </div>
+
+                                  {/* Spesifikasi */}
+                                  <div>
+                                    <p className="mb-1 font-semibold text-white/80">
+                                      {lang === "id"
+                                        ? "Spesifikasi Produk"
+                                        : "Specifications"}
+                                    </p>
+                                    <ul className="space-y-1 text-white/70">
+                                      {product.detail.specs.map((s, idx) => (
+                                        <li key={idx} className="flex gap-2">
+                                          <span className="text-white/60 w-28 shrink-0">
+                                            {s.label}:
+                                          </span>
+                                          <span>{s.value}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+
+                                  {/* Kelebihan */}
+                                  <div>
+                                    <p className="mb-1 font-semibold text-white/80">
+                                      {lang === "id"
+                                        ? "Kelebihan Produk"
+                                        : "Benefits"}
+                                    </p>
+                                    <ul className="pl-5 space-y-1 list-disc text-white/70">
+                                      {product.detail.benefits.map((b, idx) => (
+                                        <li key={idx}>{b}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

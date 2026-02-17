@@ -60,6 +60,7 @@ export const copy = {
       {
         title: "Gagang Sabit Tanpa Finishing",
         short: "Kuat · Ergonomis · Tanpa Finishing · Produksi stabil",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -87,6 +88,7 @@ export const copy = {
       {
         title: "Gagang Sabit Dengan Finishing",
         short: "Kuat · Ergonomis · Finishing · Produksi stabil",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -114,6 +116,7 @@ export const copy = {
       {
         title: "Gagang Sabit Dengan Finishing Natural",
         short: "Kuat · Ergonomis · Finishing · Produksi stabil",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -141,6 +144,7 @@ export const copy = {
       {
         title: "Gagang Sabit Tanpa Finishing",
         short: "Kayu pilihan · Tanpa Finishing · Bisa custom",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -168,6 +172,7 @@ export const copy = {
       {
         title: "Gagang Sabit Finishing",
         short: "Kayu pilihan · Finishing · Bisa custom",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -195,6 +200,7 @@ export const copy = {
       {
         title: "Gagang Sabit Dengan Finishing Natural",
         short: "Kuat · Ergonomis · Finishing · Produksi stabil",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Gagang sabit Arkahf dibuat dari kayu jati atau kayu mahoni pilihan yang terkenal kuat dan tahan lama. Pegangan ergonomis dan nyaman digunakan untuk aktivitas pertanian, perkebunan, serta pekerjaan lapangan sehari-hari.",
@@ -278,6 +284,7 @@ export const copy = {
       {
         title: "Sickle Handle (Unfinished)",
         short: "Strong · Ergonomic · Unfinished · Stable production",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -305,6 +312,7 @@ export const copy = {
       {
         title: "Sickle Handle (Finished)",
         short: "Strong · Ergonomic · Finished · Stable production",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -332,6 +340,7 @@ export const copy = {
       {
         title: "Sickle Handle (Natural Finished)",
         short: "Strong · Ergonomic · Finished · Stable production",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -359,6 +368,7 @@ export const copy = {
       {
         title: "Sickle Handle (Unfinished)",
         short: "Selected wood · Unfinished · Customizable",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -386,6 +396,7 @@ export const copy = {
       {
         title: "Sickle Handle (Finished)",
         short: "Selected wood · Finished · Customizable",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -413,6 +424,7 @@ export const copy = {
       {
         title: "Sickle Handle (Natural Finished)",
         short: "Strong · Ergonomic · Finished · Stable production",
+        categoryId: "gagang_sabit",
         detail: {
           description: [
             "Arkahf sickle handles are made from selected teak or mahogany wood known for strength and durability. The grip is ergonomic and comfortable for farming, plantations, and daily field work.",
@@ -452,5 +464,6 @@ export type ProductDetail = {
 export type ProductItem = {
   title: string;
   short: string;
+  categoryId: string;
   detail: ProductDetail;
 };
