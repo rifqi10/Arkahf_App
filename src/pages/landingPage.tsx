@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import SEO from "../components/SEO";
 import { useLang } from "../hooks/useLang";
-import { PRODUCT_IMAGE_BY_ID, DEFAULT_PRODUCT_IMAGE } from "../assets/productImages";
+import {
+  PRODUCT_IMAGE_BY_ID,
+  DEFAULT_PRODUCT_IMAGE,
+} from "../assets/productImages";
+import type { ProductItem } from "../i18n/index";
 
 import Navbar from "../sections/Navbar";
 import Hero from "../sections/Hero";
@@ -18,8 +22,9 @@ export default function LandingPage() {
   const [previewAlt, setPreviewAlt] = useState<string>("");
   const [showAllProducts, setShowAllProducts] = useState(false);
 
-  // products tetap dari t.productsData (sesuai code kamu), hanya tambah image
-  const products = useMemo(() => {
+  type ProductWithImage = ProductItem & { image: string };
+
+  const products = useMemo<ProductWithImage[]>(() => {
     return t.productsData.map((p) => ({
       ...p,
       image: PRODUCT_IMAGE_BY_ID[p.id] ?? DEFAULT_PRODUCT_IMAGE,
@@ -40,15 +45,13 @@ export default function LandingPage() {
             ? "Produk gagang kayu, handle, pegangan alat, serta aksesoris kayu dari Arkahf dibuat dari kayu pilihan (jati/mahoni) dengan finishing rapi. Kuat, ergonomis, dan nyaman digenggam untuk kebutuhan produksi maupun custom."
             : "Arkahf's wooden handles, grips, tool handles, and wooden accessories are made from selected wood (teak/mahogany) with a neat finish. Strong, ergonomic, and comfortable to hold for production and custom needs."
         }
-        canonical={lang === "id" ? "https://arkahf.com/" : "https://arkahf.com/?lang=en"}
+        canonical={
+          lang === "id" ? "https://arkahf.com/" : "https://arkahf.com/?lang=en"
+        }
         ogImage="https://arkahf.com/logoArkahff.png"
       />
 
-      <Navbar
-        lang={lang}
-        setLang={setLang}
-        t={t}
-      />
+      <Navbar lang={lang} setLang={setLang} t={t} />
 
       <Hero lang={lang} t={t} />
 

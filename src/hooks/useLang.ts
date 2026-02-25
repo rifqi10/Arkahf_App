@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { copy, I18N_STORAGE_KEY } from "../i18n";
-import type { Lang } from "../i18n";
+import { copy, I18N_STORAGE_KEY } from "../i18n/index";
+import type { Copy, Lang } from "../i18n/index";
 
 function getLangFromUrl(): Lang | null {
   try {
@@ -70,7 +70,7 @@ export function useLang() {
     }
   }, [lang, ready]);
 
-  const t = useMemo(() => copy[lang], [lang]);
+  const t: Copy = useMemo(() => copy[lang], [lang]);
 
   return { lang, setLang, t };
 }

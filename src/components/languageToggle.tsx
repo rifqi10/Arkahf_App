@@ -1,5 +1,5 @@
 // src/components/LanguageToggle.tsx
-import type { Lang } from "../i18n";
+import type { Lang } from "../i18n/index";
 
 type Props = {
   lang: Lang;
