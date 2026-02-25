@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo} from "react";
 import ProductCard from "../components/ProductCard";
 import ImagePreviewModal from "../modals/ImagePreviewModal";
 import AllProductsModal from "../modals/AllProductsModal";
@@ -48,7 +48,7 @@ export default function ProductsSection({
         </h2>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {visibleProducts.map((product, i) => (
+          {visibleProducts.map((product) => (
             <ProductCard
               key={product.id}
               lang={lang}
