@@ -7,14 +7,14 @@ export const copyCore = {
       contact: "Kontak",
     },
     hero: {
-      title: "Arkahf — Gagang Kayu, Handle & Pegangan Kayu Premium",
-      desc: "Produk gagang kayu, handle, pegangan alat, serta aksesoris kayu dari Arkahf dibuat dari kayu pilihan (jati/mahoni) dengan finishing rapi. Kuat, ergonomis, dan nyaman digenggam untuk kebutuhan produksi maupun custom.",
+      title: "Arkahf Craft — Kerajinan & Produk Kayu Premium",
+      desc: "Produk gagang kayu, handle, pegangan alat, serta aksesoris kayu dari Arkahf Craft dibuat dari kayu pilihan (jati/mahoni) dengan finishing rapi. Kuat, ergonomis, dan nyaman digenggam untuk kebutuhan produksi maupun custom.",
       ctaPrimary: "Minta Katalog & Harga",
       ctaSecondary: "Lihat Produk",
     },
     about: {
-      title: "Tentang Arkahf",
-      desc: "Arkahf memproduksi gagang kayu, handle, pegangan sabit, dan aksesoris kayu dari bahan pilihan dengan finishing rapi. Kuat, ergonomis, konsisten untuk order produksi dan custom.",
+      title: "Tentang Arkahf Craft",
+      desc: "Arkahf Craft memproduksi gagang kayu, handle, pegangan sabit, dan aksesoris kayu dari bahan pilihan dengan finishing rapi. Kuat, ergonomis, konsisten untuk order produksi dan custom.",
     },
     products: {
       title: "Kategori Produk",
@@ -28,7 +28,7 @@ export const copyCore = {
       close: "Tutup",
     },
     why: {
-      title: "Kenapa Memilih Arkahf?",
+      title: "Kenapa Memilih Arkahf Craft?",
       items: [
         ["Kayu Pilihan", "Disortir untuk kekuatan dan serat terbaik"],
         ["Finishing Rapi", "Nyaman digenggam dan tahan lama"],
@@ -41,7 +41,7 @@ export const copyCore = {
       desc: "Hubungi kami untuk katalog, harga, dan permintaan custom.",
       cta: "Hubungi Sekarang",
     },
-    footer: { brand: "Arkahf" },
+    footer: { brand: "Arkahf Craft" },
   },
 
   en: {
@@ -52,14 +52,14 @@ export const copyCore = {
       contact: "Contact",
     },
     hero: {
-      title: "Arkahf — Wooden Handles, Handles & Premium Wooden Grips",
-      desc: "Arkahf's wooden handles, grips, tool handles, and wooden accessories are made from selected wood (teak/mahogany) with a neat finish. Strong, ergonomic, and comfortable to hold for production and custom needs.",
+      title: "Arkahf Craft — Premium Wooden Crafts & Products",
+      desc: "Arkahf Craft's wooden handles, grips, tool handles, and wooden accessories are made from selected wood (teak/mahogany) with a neat finish. Strong, ergonomic, and comfortable to hold for production and custom needs.",
       ctaPrimary: "Request Catalog & Price",
       ctaSecondary: "View Products",
     },
     about: {
-      title: "About Arkahf",
-      desc: "Arkahf produces wooden handles, handles, sickle handles, and wooden accessories from selected materials with neat finishes. Strong, ergonomic, consistent for production and custom orders.",
+      title: "About Arkahf Craft",
+      desc: "Arkahf Craft produces wooden handles, handles, sickle handles, and wooden accessories from selected materials with neat finishes. Strong, ergonomic, consistent for production and custom orders.",
     },
     products: {
       title: "Product Categories",
@@ -73,7 +73,7 @@ export const copyCore = {
       close: "Close",
     },
     why: {
-      title: "Why Choose Arkahf?",
+      title: "Why Choose Arkahf Craft?",
       items: [
         ["Selected Wood", "Sorted for strength and best grain"],
         ["Neat Finishing", "Comfortable grip and durable"],
@@ -86,6 +86,6 @@ export const copyCore = {
       desc: "Contact us for catalog, pricing, and custom requests.",
       cta: "Contact Now",
     },
-    footer: { brand: "Arkahf" },
+    footer: { brand: "Arkahf Craft" },
   },
 } as const;

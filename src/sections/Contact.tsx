@@ -17,7 +17,7 @@ export default function Contact({ t }: { t: any }) {
 
         <div className="mt-10">
           <a
-            href="https://wa.me/6285640905903?text=Halo%20Arkahf,%20saya%20tertarik%20dengan%20produk%20anda."
+            href="https://wa.me/6285640905903?text=Halo%20Arkahf%20Craft,%20saya%20tertarik%20dengan%20produk%20anda."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-10 py-4 font-semibold transition rounded-xl bg-[#F3E9D2] text-[#2E1A10] hover:bg-[#E6D8BC]"

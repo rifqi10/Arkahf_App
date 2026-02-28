@@ -4,7 +4,7 @@ type Props = {
   lang: "id" | "en";
   t: any;
   product: any;
-  compact?: boolean; // untuk modal all products (lebih kecil)
+  compact?: boolean;
   onOpenImage: (src: string, alt: string) => void;
 };
 
