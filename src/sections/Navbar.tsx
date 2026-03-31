@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoArkahf from "../assets/arkhafLogo2.png";
+import logoArkahf from "../assets/arkhafLogo2.webp";
 import LanguageToggle from "../components/languageToggle";
 
 type Props = {

@@ -48,7 +48,7 @@ export default function LandingPage() {
         canonical={
           lang === "id" ? "https://arkahf.com/" : "https://arkahf.com/?lang=en"
         }
-        ogImage="https://arkahf.com/logoArkahff.png"
+        ogImage="https://arkahf.com/logoArkahff.webp"
       />
 
       <Navbar lang={lang} setLang={setLang} t={t} />

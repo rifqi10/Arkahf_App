@@ -1,47 +1,47 @@
 // src/assets/productImages.ts
 
 // HERO / umum
-import gagangFinishing2 from "./gagangFinishing2.jpeg";
-import balokKayu333FinishingBg1 from "./balokKayu333FinishingBg1.jpeg";
+import gagangFinishing2 from "./gagangFinishing2.webp";
+import balokKayu333FinishingBg1 from "./balokKayu333FinishingBg1.webp";
 
 // PRODUCT IMAGES (yang kamu pakai di list)
-import gagangSabitNoFinishing2 from "./gagangSabitNoFinishing2.jpeg";
-import gagangSabitFinishing2 from "./gagangSabitFinishing2.jpeg";
-import gagangSabitFinishingNatural from "./gagangSabitFinishingNatural.jpeg";
+import gagangSabitNoFinishing2 from "./gagangSabitNoFinishing2.webp";
+import gagangSabitFinishing2 from "./gagangSabitFinishing2.webp";
+import gagangSabitFinishingNatural from "./gagangSabitFinishingNatural.webp";
 
-import gagangSabitNoFinishingText from "./gagangSabitNoFinishingText.png";
-import gagangSabitFinishingText from "./gagangSabitFinishingText.png";
-import gagangSabitFinishingNaturalText from "./gagangSabitFinishingNaturalText.png";
+import gagangSabitNoFinishingText from "./gagangSabitNoFinishingText.webp";
+import gagangSabitFinishingText from "./gagangSabitFinishingText.webp";
+import gagangSabitFinishingNaturalText from "./gagangSabitFinishingNaturalText.webp";
 
-import balokKayu333NoFinishingText from "./balokKayu333NoFinishingText.png";
-import balokKayu333FinishingText from "./balokKayu333FinishingText.png";
-import balokKayu336NoFinishingText from "./balokKayu336NoFinishingText.png";
-import balokKayu336FinishingText from "./balokKayu336FinishingText.png";
-import balokKayu337NoFinishingText from "./balokKayu337NoFinishingText.png";
-import balokKayu338NoFinishingText from "./balokKayu338NoFinishingText.png";
-import balokKayu339NoFinishingText from "./balokKayu339NoFinishingText.png";
-import balokKayu3310NoFinishingText from "./balokKayu3310NoFinishingText.png";
-import balokKayu3311NoFinishingText from "./balokKayu3311NoFinishingText.png";
-import balokKayu3312NoFinishingText from "./balokKayu3312NoFinishingText.png";
+import balokKayu333NoFinishingText from "./balokKayu333NoFinishingText.webp";
+import balokKayu333FinishingText from "./balokKayu333FinishingText.webp";
+import balokKayu336NoFinishingText from "./balokKayu336NoFinishingText.webp";
+import balokKayu336FinishingText from "./balokKayu336FinishingText.webp";
+import balokKayu337NoFinishingText from "./balokKayu337NoFinishingText.webp";
+import balokKayu338NoFinishingText from "./balokKayu338NoFinishingText.webp";
+import balokKayu339NoFinishingText from "./balokKayu339NoFinishingText.webp";
+import balokKayu3310NoFinishingText from "./balokKayu3310NoFinishingText.webp";
+import balokKayu3311NoFinishingText from "./balokKayu3311NoFinishingText.webp";
+import balokKayu3312NoFinishingText from "./balokKayu3312NoFinishingText.webp";
 
-import boxKotak202010Bg1 from "./boxKotak202010Bg1.jpeg";
-import boxKotak202010Text from "./boxKotak202010Text.png";
-import boxKotak252510Text from "./boxKotak252510Text.png";
-import boxKotak303010Text from "./boxKotak303010Text.png";
+import boxKotak202010Bg1 from "./boxKotak202010Bg1.webp";
+import boxKotak202010Text from "./boxKotak202010Text.webp";
+import boxKotak252510Text from "./boxKotak252510Text.webp";
+import boxKotak303010Text from "./boxKotak303010Text.webp";
 
-import kotakKayu3Sekat from "./kotakKayu3Sekat.png";
+import kotakKayu3Sekat from "./kotakKayu3Sekat.webp";
 
-import boxPetiUk173011Text from "./boxPetiUk173011Text.png";
-import boxPetiUk223511Text from "./boxPetiUk223511Text.png";
-import boxPetiUk274011Text from "./boxPetiUk274011Text.png";
+import boxPetiUk173011Text from "./boxPetiUk173011Text.webp";
+import boxPetiUk223511Text from "./boxPetiUk223511Text.webp";
+import boxPetiUk274011Text from "./boxPetiUk274011Text.webp";
 
 
-import uk10107TanpaSkat from "./uk10107TanpaSkat.png";
-import uk20107Skat2 from "./uk20107Skat2.png";
-import uk20107TanpaSkat from "./uk20107TanpaSkat.png";
-import uk30107Skat2 from "./uk30107Skat2.png";
-import uk30107Skat3 from "./uk30107Skat3.png";
-import uk30107TanpaSkat from "./uk30107TanpaSkat.png";
+import uk10107TanpaSkat from "./uk10107TanpaSkat.webp";
+import uk20107Skat2 from "./uk20107Skat2.webp";
+import uk20107TanpaSkat from "./uk20107TanpaSkat.webp";
+import uk30107Skat2 from "./uk30107Skat2.webp";
+import uk30107Skat3 from "./uk30107Skat3.webp";
+import uk30107TanpaSkat from "./uk30107TanpaSkat.webp";
 
 // 1) HERO SLIDES kamu pindahkan ke sini biar landingPage bersih
 export const HERO_SLIDES = [
