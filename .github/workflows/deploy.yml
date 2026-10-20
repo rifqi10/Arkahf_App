@@ -34,5 +34,7 @@ jobs:
           protocol: ftps
           port: 21
           timeout: 60000
+          security: loose
+          log-level: verbose
           local-dir: ./dist/
           server-dir: ./
