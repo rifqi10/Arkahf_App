@@ -7,57 +7,41 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: Deploy
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get latest code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build Project
+      - name: Build React
         run: npm run build
 
-      # Diagnose koneksi FTP dari GitHub Actions
-      - name: Diagnose FTP Connection
-        shell: bash
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to cPanel
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
         run: |
-          echo "=== DNS ==="
-          getent ahostsv4 ftp.saveitech.my.id || true
-
-          echo "=== TCP port 21 via hostname ==="
-          timeout 15 bash -c 'echo > /dev/tcp/ftp.saveitech.my.id/21' \
-            && echo "TCP HOSTNAME OK" \
-            || echo "TCP HOSTNAME FAILED"
-
-          echo "=== TCP port 21 via IP ==="
-          timeout 15 bash -c 'echo > /dev/tcp/101.50.1.78/21' \
-            && echo "TCP IP OK" \
-            || echo "TCP IP FAILED"
-
-          echo "=== FTP server response ==="
-          curl -v --connect-timeout 10 --max-time 20 \
-            ftp://101.50.1.78:21/ 2>&1 | head -35 || true
-
-      # Deploy React build ke cPanel
-      - name: Deploy via Explicit FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          timeout: 60000
-          security: loose
-          log-level: verbose
-          local-dir: ./dist/
-          server-dir: ./
+          lftp -u "$FTP_USER","$FTP_PASS" "ftp://$FTP_HOST:21" <<'EOF'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate no
+          set ftp:passive-mode true
+          set net:timeout 30
+          set net:max-retries 2
+          mirror -R --verbose --only-newer ./dist/ ./
+          bye
+          EOF
