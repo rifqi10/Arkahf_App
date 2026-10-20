@@ -36,3 +36,4 @@ jobs:
           timeout: 60000
           local-dir: ./dist/
           server-dir: ./
+```
