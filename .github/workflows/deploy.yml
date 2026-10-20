@@ -1,3 +1,4 @@
+
 name: Deploy React to cPanel
 
 on:
@@ -25,6 +26,28 @@ jobs:
       - name: Build Project
         run: npm run build
 
+      # Diagnose koneksi FTP dari GitHub Actions
+      - name: Diagnose FTP Connection
+        shell: bash
+        run: |
+          echo "=== DNS ==="
+          getent ahostsv4 ftp.saveitech.my.id || true
+
+          echo "=== TCP port 21 via hostname ==="
+          timeout 15 bash -c 'echo > /dev/tcp/ftp.saveitech.my.id/21' \
+            && echo "TCP HOSTNAME OK" \
+            || echo "TCP HOSTNAME FAILED"
+
+          echo "=== TCP port 21 via IP ==="
+          timeout 15 bash -c 'echo > /dev/tcp/101.50.1.78/21' \
+            && echo "TCP IP OK" \
+            || echo "TCP IP FAILED"
+
+          echo "=== FTP server response ==="
+          curl -v --connect-timeout 10 --max-time 20 \
+            ftp://101.50.1.78:21/ 2>&1 | head -35 || true
+
+      # Deploy React build ke cPanel
       - name: Deploy via Explicit FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
