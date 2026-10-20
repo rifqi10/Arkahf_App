@@ -38,10 +38,14 @@ jobs:
           lftp -u "$FTP_USER","$FTP_PASS" "ftp://$FTP_HOST:21" <<'EOF'
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
+          set ftp:ssl-auth TLS
           set ssl:verify-certificate no
           set ftp:passive-mode true
-          set net:timeout 30
-          set net:max-retries 2
+          set ftp:prefer-epsv false
+          set ftp:use-feat false
+          set net:timeout 60
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
           mirror -R --verbose --only-newer ./dist/ ./
           bye
           EOF
