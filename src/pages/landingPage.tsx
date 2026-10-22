@@ -32,7 +32,7 @@ export default function LandingPage() {
   }, [t.productsData]);
 
   return (
-    <div className="min-h-screen font-sans text-[#F3E9D2] bg-[#070707]">
+    <div className="min-h-screen overflow-x-clip bg-[#F7F5EF] font-sans text-[#292D29] antialiased">
       <SEO
         lang={lang}
         title={

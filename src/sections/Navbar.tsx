@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import logoArkahf from "../assets/arkhafLogo2.webp";
 import LanguageToggle from "../components/languageToggle";
@@ -10,110 +11,226 @@ type Props = {
 
 export default function Navbar({ lang, setLang, t }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  // tutup menu saat klik ESC (opsional)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMobileMenu();
+      if (e.key === "Escape") {
+        closeMobileMenu();
+      }
     };
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
-  return (
-    <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur">
-      <div className="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
-        <a
-          href="#"
-          className="flex items-center gap-3"
-          onClick={closeMobileMenu}
-        >
-          <img src={logoArkahf} alt="Arkahf" className="w-auto h-12" />
-        </a>
+  // Mencegah halaman bergulir ketika menu mobile terbuka.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
 
-        <div className="flex items-center gap-3">
-          <div className="hidden gap-8 text-sm font-medium md:flex text-white/70">
-            <a href="#about" className="transition hover:text-[#D6B98C]">
-              {t.nav.about}
-            </a>
-            <a href="#products" className="transition hover:text-[#D6B98C]">
-              {t.nav.products}
-            </a>
-            <a href="#why" className="transition hover:text-[#D6B98C]">
-              {t.nav.why}
-            </a>
-            <a href="#contact" className="transition hover:text-[#D6B98C]">
-              {t.nav.contact}
-            </a>
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  const navLinks = [
+    { href: "#about", label: t.nav.about },
+    { href: "#products", label: t.nav.products },
+    { href: "#why", label: t.nav.why },
+    { href: "#contact", label: t.nav.contact },
+  ];
+
+  return (
+    <>
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#E7E5DC]/80 bg-[#F7F5EF]/90 shadow-sm shadow-[#292D29]/5 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+          {/* Logo */}
+          <a
+            href="#"
+            onClick={closeMobileMenu}
+            aria-label="Arkahf Craft - Home"
+            className="flex min-w-0 shrink-0 items-center rounded-lg transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315747] focus-visible:ring-offset-2"
+          >
+            <img
+              src={logoArkahf}
+              alt="Arkahf Craft"
+              className="h-9 w-auto object-contain sm:h-11 lg:h-12"
+            />
+          </a>
+
+          {/* Navigasi Desktop */}
+          <div className="hidden items-center gap-6 lg:flex xl:gap-8">
+            {navLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="whitespace-nowrap text-sm font-semibold text-[#555D53] transition-colors duration-200 hover:text-[#315747] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315747]"
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
 
-          <LanguageToggle lang={lang} onChange={setLang} />
+          {/* Bahasa dan Tombol Menu Mobile */}
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <LanguageToggle lang={lang} onChange={setLang} />
 
-          <button
-            type="button"
-            className="inline-flex items-center justify-center w-10 h-10 border rounded-xl border-white/10 bg-white/5 text-white/80 hover:bg-white/10 md:hidden"
-            aria-label="Open menu"
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen((v) => !v)}
-          >
-            {mobileMenuOpen ? (
-              <span className="text-2xl leading-none">✕</span>
-            ) : (
-              <span className="text-2xl leading-none">☰</span>
-            )}
-          </button>
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#DCDDD2] bg-white text-[#315747] shadow-sm transition-colors duration-200 hover:bg-[#EAF0E9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315747] lg:hidden"
+              aria-label={
+                mobileMenuOpen
+                  ? lang === "id"
+                    ? "Tutup menu"
+                    : "Close menu"
+                  : lang === "id"
+                    ? "Buka menu"
+                    : "Open menu"
+              }
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              {mobileMenuOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 7h16" />
+                  <path d="M4 12h16" />
+                  <path d="M4 17h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
+      {/* Menu Mobile */}
       {mobileMenuOpen && (
         <div
-          className="md:hidden"
+          className="fixed inset-0 z-[60] lg:hidden"
           role="dialog"
           aria-modal="true"
+          aria-label={lang === "id" ? "Menu navigasi" : "Navigation menu"}
           onClick={closeMobileMenu}
         >
-          <div className="fixed inset-0 z-40 bg-black/60" />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-[#202820]/35 backdrop-blur-[2px]" />
 
+          {/* Panel Menu */}
           <div
-            className="fixed top-[72px] left-0 right-0 z-50 mx-auto w-full max-w-7xl px-6"
+            id="mobile-navigation"
+            className="absolute inset-x-0 top-0 border-b border-[#E7E5DC] bg-[#F7F5EF] shadow-xl shadow-[#292D29]/10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] shadow-2xl overflow-hidden">
-              <div className="flex flex-col p-4 text-white/80">
-                <a
-                  href="#about"
-                  className="px-4 py-3 rounded-xl hover:bg-white/5"
-                  onClick={closeMobileMenu}
+            {/* Header Menu */}
+            <div className="flex items-center justify-between gap-4 border-b border-[#E7E5DC] px-5 py-4 sm:px-6">
+              <div className="flex min-w-0 items-center gap-3">
+                <img
+                  src={logoArkahf}
+                  alt="Arkahf Craft"
+                  className="h-9 w-auto object-contain"
+                />
+
+                <span className="truncate text-sm font-semibold text-[#315747]">
+                  {lang === "id" ? "Jelajahi Website" : "Explore Website"}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeMobileMenu}
+                aria-label={lang === "id" ? "Tutup menu" : "Close menu"}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#DCDDD2] bg-white text-[#315747] transition hover:bg-[#EAF0E9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315747]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  {t.nav.about}
-                </a>
-                <a
-                  href="#products"
-                  className="px-4 py-3 rounded-xl hover:bg-white/5"
-                  onClick={closeMobileMenu}
-                >
-                  {t.nav.products}
-                </a>
-                <a
-                  href="#why"
-                  className="px-4 py-3 rounded-xl hover:bg-white/5"
-                  onClick={closeMobileMenu}
-                >
-                  {t.nav.why}
-                </a>
-                <a
-                  href="#contact"
-                  className="px-4 py-3 rounded-xl hover:bg-white/5"
-                  onClick={closeMobileMenu}
-                >
-                  {t.nav.contact}
-                </a>
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Daftar Navigasi */}
+            <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+              <div className="flex flex-col gap-2">
+                {navLinks.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    className="group flex min-h-12 items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-semibold text-[#454D44] transition-all duration-200 hover:border-[#DCE5D9] hover:bg-white hover:text-[#315747] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315747]"
+                  >
+                    <span>{item.label}</span>
+
+                    <span
+                      className="text-lg text-[#9CA69A] transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#315747]"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              {/* Footer Menu */}
+              <div className="mt-4 rounded-xl border border-[#E5E2D7] bg-white/70 px-4 py-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-[#315747]">
+                  Arkahf Craft
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-[#777A71]">
+                  {lang === "id"
+                    ? "Kerajinan kayu dengan perhatian pada detail."
+                    : "Wooden crafts with attention to detail."}
+                </p>
               </div>
             </div>
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 }
