@@ -1,9 +1,9 @@
 import { gagangSabitEn } from "./gagangSabit";
-import { balokKubusEn } from "./balokKubus";
 import { kotakKayuSerbagunaEn } from "./kotakKayuSerbaguna";
+import { keranjangFullRangEn } from "./keranjangFullRang";
 
 export const productsEn = [
   ...gagangSabitEn,
-  ...balokKubusEn,
   ...kotakKayuSerbagunaEn,
+  ...keranjangFullRangEn
 ] as const;

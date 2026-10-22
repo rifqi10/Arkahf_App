@@ -4,9 +4,8 @@ import ProductCard from "../components/ProductCard";
 const CATEGORY_IDS = [
   "all",
   "gagang_sabit",
-  "talenan",
-  "balok_kubus",
   "kotak_kayu_serbaguna",
+  "keranjang_full_rang"
 ] as const;
 
 type CategoryId = (typeof CATEGORY_IDS)[number];
@@ -49,16 +48,14 @@ export default function AllProductsModal({
       id: {
         all: "Semua",
         gagang_sabit: "Gagang Sabit",
-        talenan: "Talenan",
-        balok_kubus: "Balok/Kubus",
         kotak_kayu_serbaguna: "Kotak Kayu Serbaguna",
+        keranjang_full_rang: "Keranjang Full Rang"
       },
       en: {
         all: "All",
         gagang_sabit: "Sickle Handles",
-        talenan: "Cutting Boards",
-        balok_kubus: "Blocks/Cubes",
         kotak_kayu_serbaguna: "Multipurpose Wooden Boxes",
+        keranjang_full_rang: "Full Range Cart"
       },
     } as const;
 
