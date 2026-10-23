@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function Hero({ lang, t }: Props) {
-  const shopeeUrl = "https://id.shp.ee/tY9FnvX";
+  const shopeeUrl = "https://shopee.co.id/arkahfcraft";
 
   return (
     <section className="relative isolate overflow-hidden bg-[#F7F5EF] pb-16 pt-28 sm:pb-20 sm:pt-32 lg:flex lg:min-h-[90vh] lg:items-center lg:pb-24">
