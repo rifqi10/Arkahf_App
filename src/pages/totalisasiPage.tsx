@@ -439,52 +439,65 @@ export default function totalisasiPage({
   // UI
   // -----------------------------------------
 
+
   return (
-    <div className="min-h-screen bg-[#090909] px-4 py-8 text-[#f5ead5] md:px-8">
+    <div className="min-h-screen bg-[#F7F5EF] px-4 py-8 text-[#263B30] md:px-8">
+
       <div className="mx-auto max-w-7xl">
 
         {/* HEADER */}
-        <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400">
-              Arkahf Craft Internal
-            </p>
+        <div className="mb-8 flex flex-col gap-5 rounded-3xl border border-[#E8E4DA] bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between md:p-8">
 
-            <h1 className="mt-2 text-3xl font-bold md:text-4xl">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#C58B4A]" />
+
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#C58B4A]">
+                Arkahf Craft Internal
+              </p>
+            </div>
+
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#294B3A] md:text-4xl">
               Totalisasi Penjualan
             </h1>
 
-            <p className="mt-2 max-w-3xl text-sm text-white/55">
-              Upload 1-4 export Shopee
-              → gabungkan Produk +
-              Variasi → masukkan HPP
-              → masukkan keuangan toko
-              → hitung hasil
-              → download PDF.
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-[#777C73]">
+              Upload 1-4 export Shopee → gabungkan Produk + Variasi
+              → masukkan HPP → masukkan keuangan toko
+              → hitung hasil → download PDF.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
+
             <button
               onClick={reset}
-              className="rounded-xl border border-white/15 px-4 py-2 text-sm hover:bg-white/10"
+              className="rounded-xl border border-[#E5E1D7] bg-[#FAF9F6] px-5 py-3 text-sm font-semibold text-[#35473B] transition hover:border-[#294B3A]/30 hover:bg-[#294B3A]/5"
             >
               Totalan Baru
             </button>
 
             <button
               onClick={onLogout}
-              className="rounded-xl border border-red-400/25 bg-red-400/5 px-4 py-2 text-sm text-red-300 transition hover:bg-red-400/10"
+              className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
             >
               Logout
             </button>
+
           </div>
         </div>
 
         {/* MESSAGE */}
         {message && (
-          <div className="mb-5 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
-            {message}
+          <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#294B3A]/15 bg-[#294B3A]/5 px-5 py-4 text-sm text-[#294B3A] shadow-sm">
+
+            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#294B3A]/10">
+              ✓
+            </span>
+
+            <p className="leading-6">
+              {message}
+            </p>
           </div>
         )}
 
@@ -492,29 +505,17 @@ export default function totalisasiPage({
         <div className="grid gap-5 lg:grid-cols-2">
 
           <PeriodSection
-            periodStart={
-              periodStart
-            }
-            periodEnd={
-              periodEnd
-            }
-            setPeriodStart={
-              setPeriodStart
-            }
-            setPeriodEnd={
-              setPeriodEnd
-            }
+            periodStart={periodStart}
+            periodEnd={periodEnd}
+            setPeriodStart={setPeriodStart}
+            setPeriodEnd={setPeriodEnd}
           />
 
           <ShopeeUpload
             files={files}
             busy={busy}
-            onFilesChange={
-              chooseFiles
-            }
-            onProcess={
-              processFiles
-            }
+            onFilesChange={chooseFiles}
+            onProcess={processFiles}
           />
 
         </div>
@@ -522,9 +523,7 @@ export default function totalisasiPage({
         {/* STEP 3 */}
         <HppTable
           rows={rows}
-          onUpdateHpp={
-            updateHpp
-          }
+          onUpdateHpp={updateHpp}
         />
 
         {/* STEP 4 & 5 */}
@@ -533,12 +532,8 @@ export default function totalisasiPage({
           <FinanceSection
             files={files}
             finance={finance}
-            setFinance={
-              setFinance
-            }
-            totalFinance={
-              totalFinance
-            }
+            setFinance={setFinance}
+            totalFinance={totalFinance}
           />
 
           <ResultSection
@@ -556,7 +551,19 @@ export default function totalisasiPage({
           />
 
         </div>
+
+        {/* FOOTER */}
+        <div className="mt-10 border-t border-[#E5E1D7] py-6 text-center">
+          <p className="text-xs font-medium text-[#294B3A]">
+            ARKAHF CRAFT INTERNAL
+          </p>
+          <p className="mt-1 text-[11px] text-[#92958D]">
+            Sistem Totalisasi Penjualan
+          </p>
+        </div>
+
       </div>
     </div>
   );
+
 }

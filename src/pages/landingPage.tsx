@@ -14,6 +14,7 @@ import ProductsSection from "../sections/ProductsSection";
 import Why from "../sections/Why";
 import Contact from "../sections/Contact";
 import Footer from "../sections/Footer";
+import Ketentuan from "../sections/Ketentuan";
 
 export default function LandingPage() {
   const { lang, setLang, t } = useLang();
@@ -75,6 +76,8 @@ export default function LandingPage() {
           setPreviewAlt("");
         }}
       />
+
+      <Ketentuan lang={lang} />
 
       <Why t={t} />
 
