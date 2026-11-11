@@ -1,3 +1,20 @@
+lftp -u "$FTP_USER","$FTP_PASS" "ftp://$FTP_HOST:21" <<'EOF'
+set ftp:ssl-force true
+set ftp:ssl-protect-data true
+set ftp:ssl-auth TLS
+set ssl:verify-certificate no
+set ftp:passive-mode true
+set ftp:prefer-epsv false
+set ftp:use-feat false
+set net:timeout 60
+set net:max-retries 3
+set net:reconnect-interval-base 5
+mirror -R --verbose --only-newer ./dist/ ./
+bye
+EOF
+
+
+
 
 name: Deploy React to cPanel
 
@@ -11,70 +28,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
 
-      # 3. Install dependencies
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
 
-      # 4. Build React
       - name: Build React
         run: npm run build
 
-      # 5. Install lftp dengan retry
       - name: Install lftp
-        run: |
-          for i in 1 2 3; do
-            echo "Percobaan instalasi lftp ke-$i"
+        run: sudo apt-get update && sudo apt-get install -y lftp
 
-            if sudo apt-get update -o Acquire::Retries=3 && \
-               sudo apt-get install -y -o Acquire::Retries=3 lftp; then
-              echo "lftp berhasil diinstal"
-              exit 0
-            fi
-
-            echo "Instalasi gagal. Mencoba kembali dalam 15 detik..."
-            sleep 15
-          done
-
-          echo "Gagal menginstal lftp setelah 3 percobaan"
-          exit 1
-
-      # 6. Deploy ke cPanel
       - name: Deploy to cPanel
         env:
           FTP_HOST: ${{ secrets.FTP_SERVER }}
           FTP_USER: ${{ secrets.FTP_USERNAME }}
           FTP_PASS: ${{ secrets.FTP_PASSWORD }}
-
         run: |
           lftp -u "$FTP_USER","$FTP_PASS" "ftp://$FTP_HOST:21" <<'EOF'
-
-          set cmd:fail-exit yes
-
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ftp:ssl-auth TLS
           set ssl:verify-certificate no
-
           set ftp:passive-mode true
           set ftp:prefer-epsv false
           set ftp:use-feat false
-
           set net:timeout 60
           set net:max-retries 3
           set net:reconnect-interval-base 5
-
           mirror -R --verbose --only-newer ./dist/ ./
-
           bye
           EOF
