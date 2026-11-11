@@ -44,7 +44,10 @@ jobs:
         run: npm run build
 
       - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
+        run: |
+          echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+          sudo apt-get update || sudo apt-get update
+          sudo apt-get install -y lftp
 
       - name: Deploy to cPanel
         env:
